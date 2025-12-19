@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Manoj Media Downloader</title>
+</head>
+<body>
+<h2>Manoj Media Downloader</h2>
+<input id="url" placeholder="Paste YouTube link">
+<button onclick="download('video')">Download Video</button>
+<button onclick="download('audio')">Download Audio</button>
+
+<script>
+const API_BASE = "https://video-downloader-97pCwUGjCGd18sAFscUcgPKVcJ1T.vercel.app";
+
+async function download(kind){
+  const url = document.getElementById("url").value;
+  const res = await fetch(API_BASE + "/api/resolve",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify({ url, kind })
+  });
+  const data = await res.json();
+  if(data.ok){
+    window.open(data.downloadUrl,"_blank");
+  } else {
+    alert(data.message);
+  }
+}
+</script>
+</body>
+</html>
